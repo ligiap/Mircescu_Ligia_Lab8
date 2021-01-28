@@ -8,7 +8,7 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Mircescu_Ligia_Lab8.Data;
 using Mircescu_Ligia_Lab8.Models;
 
-namespace Mircescu_Ligia_Lab8.Pages.Books
+namespace Mircescu_Ligia_Lab8.Pages.Categories
 {
     public class CreateModel : PageModel
     {
@@ -21,31 +21,25 @@ namespace Mircescu_Ligia_Lab8.Pages.Books
 
         public IActionResult OnGet()
         {
-            ViewData["PublisherID"] = new SelectList(_context.Set<Publisher>(), "ID", "PublisherName");
             return Page();
         }
 
         [BindProperty]
-        public Book Book { get; set; }
-        
-           
+        public Category Category { get; set; }
 
-    // To protect from overposting attacks, enable the specific properties you want to bind to, for
-    // more details, see https://aka.ms/RazorPagesCRUD.
-    public async Task<IActionResult> OnPostAsync()
+        // To protect from overposting attacks, enable the specific properties you want to bind to, for
+        // more details, see https://aka.ms/RazorPagesCRUD.
+        public async Task<IActionResult> OnPostAsync()
         {
             if (!ModelState.IsValid)
             {
                 return Page();
             }
 
-            _context.Book.Add(Book);
+            _context.Category.Add(Category);
             await _context.SaveChangesAsync();
 
             return RedirectToPage("./Index");
-           
-            
         }
-       
     }
 }

@@ -10,6 +10,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.EntityFrameworkCore;
 using Mircescu_Ligia_Lab8.Data;
+using Mircescu_Ligia_Lab8.Models;
 
 namespace Mircescu_Ligia_Lab8
 {

@@ -8,7 +8,7 @@ using Microsoft.EntityFrameworkCore;
 using Mircescu_Ligia_Lab8.Data;
 using Mircescu_Ligia_Lab8.Models;
 
-namespace Mircescu_Ligia_Lab8.Pages.Books
+namespace Mircescu_Ligia_Lab8.Pages.Categories
 {
     public class DetailsModel : PageModel
     {
@@ -19,7 +19,7 @@ namespace Mircescu_Ligia_Lab8.Pages.Books
             _context = context;
         }
 
-        public Book Book { get; set; }
+        public Category Category { get; set; }
 
         public async Task<IActionResult> OnGetAsync(int? id)
         {
@@ -28,11 +28,9 @@ namespace Mircescu_Ligia_Lab8.Pages.Books
                 return NotFound();
             }
 
-            Book = await _context.Book
-                .Include(s=>)
-                .FirstOrDefaultAsync(m => m.ID == id);
+            Category = await _context.Category.FirstOrDefaultAsync(m => m.ID == id);
 
-            if (Book == null)
+            if (Category == null)
             {
                 return NotFound();
             }

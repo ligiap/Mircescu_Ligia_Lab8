@@ -9,7 +9,7 @@ using Microsoft.EntityFrameworkCore;
 using Mircescu_Ligia_Lab8.Data;
 using Mircescu_Ligia_Lab8.Models;
 
-namespace Mircescu_Ligia_Lab8.Pages.Books
+namespace Mircescu_Ligia_Lab8.Pages.Publishers
 {
     public class EditModel : PageModel
     {
@@ -18,14 +18,10 @@ namespace Mircescu_Ligia_Lab8.Pages.Books
         public EditModel(Mircescu_Ligia_Lab8.Data.Mircescu_Ligia_Lab8Context context)
         {
             _context = context;
-            context.Book.Include(book => book.Publisher);
-            
-            _context.Book.Include("PublisherID");
-            _context.Book.Load();
         }
 
         [BindProperty]
-        public Book Book { get; set; }
+        public Publisher Publisher { get; set; }
 
         public async Task<IActionResult> OnGetAsync(int? id)
         {
@@ -34,18 +30,12 @@ namespace Mircescu_Ligia_Lab8.Pages.Books
                 return NotFound();
             }
 
-            Book = await _context.Book
-                .Include (b => b.Publisher)
-                .Include(b => b.BookCategories)
-                .ThenInclude(b => b.Category)
-                .AsNoTracking()
-                .FirstOrDefaultAsync(m => m.ID == id);
-            if (Book == null)
+            Publisher = await _context.Publisher.FirstOrDefaultAsync(m => m.ID == id);
+
+            if (Publisher == null)
             {
                 return NotFound();
             }
-           
-            ViewData["PublisherID"] = new SelectList(_context.Set<Publisher>(), "ID", "PublisherName");
             return Page();
         }
 
@@ -58,7 +48,7 @@ namespace Mircescu_Ligia_Lab8.Pages.Books
                 return Page();
             }
 
-            _context.Attach(Book).State = EntityState.Modified;
+            _context.Attach(Publisher).State = EntityState.Modified;
 
             try
             {
@@ -66,7 +56,7 @@ namespace Mircescu_Ligia_Lab8.Pages.Books
             }
             catch (DbUpdateConcurrencyException)
             {
-                if (!BookExists(Book.ID))
+                if (!PublisherExists(Publisher.ID))
                 {
                     return NotFound();
                 }
@@ -79,9 +69,9 @@ namespace Mircescu_Ligia_Lab8.Pages.Books
             return RedirectToPage("./Index");
         }
 
-        private bool BookExists(int id)
+        private bool PublisherExists(int id)
         {
-            return _context.Book.Any(e => e.ID == id);
+            return _context.Publisher.Any(e => e.ID == id);
         }
     }
 }
